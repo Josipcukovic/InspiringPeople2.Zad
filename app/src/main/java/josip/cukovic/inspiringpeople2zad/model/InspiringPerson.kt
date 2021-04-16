@@ -12,7 +12,7 @@ class InspiringPerson(val name:String, val dateOfDeath : String, val description
         private var Id = 0
         fun getPersonId(): Int {
             Id++
-            return  Id
+            return Id
         }
     }
     fun randomQuote():String{

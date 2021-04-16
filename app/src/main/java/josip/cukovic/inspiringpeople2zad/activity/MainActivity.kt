@@ -9,21 +9,24 @@ import josip.cukovic.inspiringpeople2zad.R
 import josip.cukovic.inspiringpeople2zad.adapters.FragmentAdapter
 import josip.cukovic.inspiringpeople2zad.adapters.PeopleAdapter
 import josip.cukovic.inspiringpeople2zad.data.PeopleRepository
+import josip.cukovic.inspiringpeople2zad.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var mainBinding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        mainBinding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(mainBinding.root)
         setupUI()
     }
 
-    lateinit var  viewPagerr: ViewPager
+    lateinit var  viewPager: ViewPager
     private fun setupUI() {
-        viewPagerr = findViewById<ViewPager>(R.id.viewPager)
-        viewPagerr.adapter = FragmentAdapter(supportFragmentManager)
-        findViewById<TabLayout>(R.id.tabLayout).setupWithViewPager(viewPagerr)
+        viewPager = mainBinding.viewPager
+        viewPager.adapter = FragmentAdapter(supportFragmentManager)
+        mainBinding.tabLayout.setupWithViewPager(viewPager)
 
-        viewPagerr?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
 
             override fun onPageScrollStateChanged(state: Int) {
             }
@@ -32,8 +35,8 @@ class MainActivity : AppCompatActivity() {
 
             }
             override fun onPageSelected(position: Int) {
-                if(viewPagerr.currentItem == 0){
-                    val adapter = (findViewById<RecyclerView>(R.id.rv_inspiring_people).adapter as PeopleAdapter)
+                if(position == 0){
+                    val adapter = findViewById<RecyclerView>(R.id.rv_inspiring_people).adapter as PeopleAdapter
                     adapter.dataAdded(PeopleRepository.people)
                     findViewById<RecyclerView>(R.id.rv_inspiring_people).scrollToPosition(adapter.itemCount-1)
                 }
